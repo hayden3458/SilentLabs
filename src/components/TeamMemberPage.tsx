@@ -27,7 +27,7 @@ const TeamMemberPage: React.FC = () => {
     <div className="min-h-screen bg-nature-glass text-white font-inter flex flex-col items-center pt-16 px-4">
       <div className="w-full max-w-2xl bg-white/10 rounded-3xl shadow-glass p-8 flex flex-col">
         <h1 className="text-4xl font-extrabold mb-2 text-glassblue-100">{member.name}</h1>
-        <h2 className="text-xl font-semibold mb-6 text-white/80">{member.role} // {member.bio}</h2>
+        <h2 className="text-xl font-semibold mb-6 text-white/80">{member.role} • {member.bio}</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
           <div>
             <div className="font-bold text-white/80 mb-1">PHONE</div>

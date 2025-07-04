@@ -15,6 +15,18 @@ export const teamMembers = [
     fun: 'Avid foodie and plays piano.',
     skills: { Coding: 90, Design: 60, Leadership: 80 },
     prompt: 'Summarize this research paper in 3 bullet points.',
+    location: {
+      city: 'Amherst, MA',
+      country: 'USA',
+      coordinates: { lat: 42.3732, lng: -72.5199 },
+      timezone: 'America/New_York',
+      university: 'University of Massachusetts Amherst',
+      story: 'Born in Seoul, South Korea, Dylan moved to the US at age 10. He discovered his passion for AI while building his first chatbot in high school. Now studying Computer Science at UMass Amherst, he dreams of making AI more accessible to everyone.',
+      culturalBackground: 'Korean-American',
+      languages: ['English', 'Korean'],
+      localTime: new Date().toLocaleTimeString('en-US', { timeZone: 'America/New_York' }),
+      weather: 'Partly Cloudy, 72°F'
+    }
   },
   {
     name: 'Mussa Zeb',
@@ -29,6 +41,18 @@ export const teamMembers = [
     fun: 'Enjoys chess and coffee.',
     skills: { Coding: 85, Design: 70, Leadership: 75 },
     prompt: 'Draft a polite follow-up email.',
+    location: {
+      city: 'New York, NY',
+      country: 'USA',
+      coordinates: { lat: 40.7128, lng: -74.0060 },
+      timezone: 'America/New_York',
+      university: 'Columbia University',
+      story: 'Growing up in a small town in Pakistan, Mussa was fascinated by technology from an early age. His journey to Columbia University represents his belief in education as a bridge to innovation. He sees AI as the key to solving global challenges.',
+      culturalBackground: 'Pakistani-American',
+      languages: ['English', 'Urdu', 'Punjabi'],
+      localTime: new Date().toLocaleTimeString('en-US', { timeZone: 'America/New_York' }),
+      weather: 'Sunny, 78°F'
+    }
   },
   {
     name: 'Max Soltsman',
@@ -43,6 +67,18 @@ export const teamMembers = [
     fun: 'Grandmaster and swimmer.',
     skills: { Coding: 80, Design: 65, Leadership: 85 },
     prompt: 'Generate creative startup ideas.',
+    location: {
+      city: 'New York, NY',
+      country: 'USA',
+      coordinates: { lat: 40.7589, lng: -73.9851 },
+      timezone: 'America/New_York',
+      university: 'Macaulay Honors College',
+      story: 'A chess prodigy from Brooklyn, Max learned strategic thinking from the game board. His analytical mind naturally led him to AI and entrepreneurship. He believes the best solutions come from combining logic with creativity.',
+      culturalBackground: 'American',
+      languages: ['English', 'Russian'],
+      localTime: new Date().toLocaleTimeString('en-US', { timeZone: 'America/New_York' }),
+      weather: 'Sunny, 78°F'
+    }
   },
   {
     name: 'Hayden Wu',
@@ -57,6 +93,18 @@ export const teamMembers = [
     fun: 'Loves hiking and traveling.',
     skills: { Coding: 88, Design: 75, Leadership: 78 },
     prompt: 'Write a daily productivity plan.',
+    location: {
+      city: 'Princeton, NJ',
+      country: 'USA',
+      coordinates: { lat: 40.3573, lng: -74.6672 },
+      timezone: 'America/New_York',
+      university: 'Princeton University',
+      story: 'Hayden\'s love for exploration began with family road trips across America. At Princeton, he studies Computer Science while pursuing his passion for sustainable technology. He envisions AI as a tool for environmental conservation.',
+      culturalBackground: 'Chinese-American',
+      languages: ['English', 'Mandarin'],
+      localTime: new Date().toLocaleTimeString('en-US', { timeZone: 'America/New_York' }),
+      weather: 'Clear, 75°F'
+    }
   },
 ];
 
@@ -79,7 +127,7 @@ const milestones = [
 
 const Team: React.FC = () => {
   const [selectedRole, setSelectedRole] = useState('All');
-  const [flipped, setFlipped] = useState<string | null>(null);
+  const [flipped] = useState<string | null>(null);
   const [carouselIdx, setCarouselIdx] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
   const navigate = useNavigate();
@@ -256,13 +304,12 @@ const Team: React.FC = () => {
         </section>
       )}
 
-      {/* Move Team Map Section here */}
-      <section className="w-full max-w-4xl mx-auto mb-12 px-4">
-        <h2 className="text-2xl font-bold text-white mb-4">Where We're From</h2>
-        <div className="bg-white/20 rounded-xl h-64 flex items-center justify-center text-white/60">
-          {/* Replace with interactive map in the future */}
-          World Map Placeholder
-        </div>
+      {/* Interactive Team Map Section */}
+      <section className="w-full max-w-6xl mx-auto mb-12 px-4">
+        <h2 className="text-2xl font-bold text-white mb-4 text-center">Where We're From</h2>
+        <p className="text-white/80 text-center mb-6 max-w-2xl mx-auto">
+          Explore our global team connections and discover the stories behind each team member's journey.
+        </p>
       </section>
 
       {/* Timeline Section */}

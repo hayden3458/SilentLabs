@@ -19,6 +19,295 @@ interface PromptHistory {
   category: string;
 }
 
+// Floating Particles Component
+const FloatingParticles = () => {
+  return (
+    <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
+      {[...Array(15)].map((_, i) => (
+        <div
+          key={i}
+          className="absolute w-1 h-1 bg-glassgreen-500/30 rounded-full animate-float"
+          style={{
+            left: `${Math.random() * 100}%`,
+            top: `${Math.random() * 100}%`,
+            animationDelay: `${Math.random() * 5}s`,
+            animationDuration: `${8 + Math.random() * 10}s`
+          }}
+        />
+      ))}
+    </div>
+  );
+};
+
+// Intersection Observer Hook for Scroll Animations
+const useIntersectionObserver = (options = {}) => {
+  const [isVisible, setIsVisible] = useState(false);
+  const [ref, setRef] = useState(null);
+
+  useEffect(() => {
+    if (!ref) return;
+
+    const observer = new IntersectionObserver(([entry]) => {
+      setIsVisible(entry.isIntersecting);
+    }, { threshold: 0.1, ...options });
+
+    observer.observe(ref);
+    return () => observer.disconnect();
+  }, [ref, options]);
+
+  return [setRef, isVisible];
+};
+
+// Animated Section Component
+const AnimatedSection = ({ children, delay = 0, direction = "up" }: { children: React.ReactNode; delay?: number; direction?: "up" | "down" | "left" | "right" }) => {
+  const [ref, isVisible] = useIntersectionObserver();
+
+  const directions = {
+    up: "translate-y-8",
+    down: "-translate-y-8",
+    left: "translate-x-8",
+    right: "-translate-x-8"
+  };
+
+  return (
+    <div
+      ref={ref}
+      className={`transition-all duration-700 ease-out ${
+        isVisible 
+          ? 'opacity-100 transform translate-y-0' 
+          : `opacity-0 transform ${directions[direction]}`
+      }`}
+      style={{ transitionDelay: `${delay}ms` }}
+    >
+      {children}
+    </div>
+  );
+};
+
+// Enhanced Micro-Button Component
+const MicroButton = ({ children, variant = "primary", className = "", ...props }: { children: React.ReactNode; variant?: "primary" | "secondary" | "ghost"; className?: string; [key: string]: any }) => {
+  const [isPressed, setIsPressed] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+
+  const baseClasses = "relative overflow-hidden rounded-full font-semibold transition-all duration-300 transform";
+  
+  const variants: Record<string, string> = {
+    primary: "bg-glassgreen-500 text-glassblue-900 hover:bg-glassgreen-400 shadow-glass",
+    secondary: "bg-white/10 border border-white/20 text-white hover:bg-white/20",
+    ghost: "text-white/80 hover:text-white"
+  };
+
+  return (
+    <button
+      {...props}
+      className={`${baseClasses} ${variants[variant]} ${className} ${
+        isPressed ? 'scale-95' : isHovered ? 'scale-105' : 'scale-100'
+      }`}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      onMouseDown={() => setIsPressed(true)}
+      onMouseUp={() => setIsPressed(false)}
+      onTouchStart={() => setIsPressed(true)}
+      onTouchEnd={() => setIsPressed(false)}
+    >
+      {/* Ripple effect */}
+      <span 
+        className="absolute inset-0 bg-white/20 transform scale-0 transition-transform duration-300 rounded-full" 
+        style={{ transform: isPressed ? 'scale(1)' : 'scale(0)' }} 
+      />
+      
+      {/* Content */}
+      <span className="relative z-10 flex items-center justify-center">
+        {children}
+      </span>
+    </button>
+  );
+};
+
+// Magnetic Button Component
+const MagneticButton = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => {
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left - rect.width / 2;
+    const y = e.clientY - rect.top - rect.height / 2;
+    
+    setPosition({ x: x * 0.3, y: y * 0.3 });
+  };
+
+  const handleMouseLeave = () => {
+    setPosition({ x: 0, y: 0 });
+    setIsHovered(false);
+  };
+
+  return (
+    <button
+      className={`relative overflow-hidden rounded-full transition-all duration-300 ${className}`}
+      onMouseMove={handleMouseMove}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={handleMouseLeave}
+      style={{
+        transform: `translate(${position.x}px, ${position.y}px) scale(${isHovered ? 1.05 : 1})`
+      }}
+    >
+      {children}
+    </button>
+  );
+};
+
+// Enhanced Floating Input Component
+const FloatingInput = ({ label, value, onChange, placeholder, maxLength, ...props }: { label: string; value: string; onChange: (e: React.ChangeEvent<HTMLInputElement>) => void; placeholder: string; maxLength?: number; [key: string]: any }) => {
+  const [isFocused, setIsFocused] = useState(false);
+  const [hasValue, setHasValue] = useState(false);
+
+  useEffect(() => {
+    setHasValue(value && value.length > 0);
+  }, [value]);
+
+  return (
+    <div className="relative">
+      <input
+        {...props}
+        value={value}
+        onChange={onChange}
+        onFocus={() => setIsFocused(true)}
+        onBlur={() => setIsFocused(false)}
+        className="w-full px-4 py-3 bg-white/10 backdrop-blur-glass border border-white/20 rounded-xl text-white placeholder-transparent focus:outline-none focus:border-glassgreen-500 transition-all duration-300"
+        placeholder={placeholder}
+        maxLength={maxLength}
+      />
+      <label 
+        className={`absolute left-4 transition-all duration-300 pointer-events-none ${
+          isFocused || hasValue 
+            ? 'top-2 text-xs text-glassgreen-400' 
+            : 'top-3 text-sm text-white/60'
+        }`}
+      >
+        {label}
+      </label>
+      
+      {/* Focus indicator */}
+      <div className={`absolute inset-0 rounded-xl transition-all duration-300 ${
+        isFocused ? 'ring-2 ring-glassgreen-500/50' : ''
+      }`} />
+    </div>
+  );
+};
+
+// Animated Character Counter Component
+const AnimatedCharacterCounter = ({ current, max, className = "" }: { current: number; max: number; className?: string }) => {
+  const progress = (current / max) * 100;
+  const [animatedProgress, setAnimatedProgress] = useState(0);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setAnimatedProgress(progress);
+    }, 100);
+    return () => clearTimeout(timer);
+  }, [progress]);
+
+  return (
+    <div className={`flex items-center space-x-2 ${className}`}>
+      <span className="text-xs text-white/80">{current}/{max}</span>
+      <div className="w-8 h-8 relative">
+        <svg className="w-8 h-8 transform -rotate-90" viewBox="0 0 32 32">
+          <circle
+            cx="16"
+            cy="16"
+            r="14"
+            stroke="rgba(255,255,255,0.2)"
+            strokeWidth="2"
+            fill="none"
+          />
+          <circle
+            cx="16"
+            cy="16"
+            r="14"
+            stroke={progress > 80 ? '#ef4444' : '#a8e063'}
+            strokeWidth="2"
+            fill="none"
+            strokeDasharray={`${2 * Math.PI * 14}`}
+            strokeDashoffset={`${2 * Math.PI * 14 * (1 - animatedProgress / 100)}`}
+            className="transition-all duration-300"
+          />
+        </svg>
+        <span className="absolute inset-0 flex items-center justify-center text-xs font-medium">
+          {Math.round(animatedProgress)}%
+        </span>
+      </div>
+    </div>
+  );
+};
+
+// Enhanced Tilt Card Component
+const TiltCard = ({ children, className = "", delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) => {
+  const [tilt, setTilt] = useState({ x: 0, y: 0 });
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    
+    const rotateX = (y - centerY) / 15;
+    const rotateY = (centerX - x) / 15;
+    
+    setTilt({ x: rotateX, y: rotateY });
+  };
+
+  const handleMouseLeave = () => {
+    setTilt({ x: 0, y: 0 });
+    setIsHovered(false);
+  };
+
+  return (
+    <div
+      className={`bg-white/10 backdrop-blur-glass border border-white/20 rounded-2xl p-8 transition-all duration-500 hover:bg-white/15 ${className}`}
+      onMouseMove={handleMouseMove}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={handleMouseLeave}
+      style={{
+        transform: `perspective(1000px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) scale(${isHovered ? 1.05 : 1})`,
+        boxShadow: isHovered 
+          ? '0 20px 40px rgba(0,0,0,0.2), 0 0 0 1px rgba(255,255,255,0.1)' 
+          : '0 8px 32px rgba(31, 38, 135, 0.18)',
+        transitionDelay: `${delay}ms`
+      }}
+    >
+      {children}
+    </div>
+  );
+};
+
+// Animated Icon Component
+const AnimatedIcon = ({ icon: Icon, className = "" }: { icon: React.ComponentType<{ className?: string }>; className?: string }) => {
+  const [isHovered, setIsHovered] = useState(false);
+
+  return (
+    <div
+      className={`relative ${className}`}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <Icon 
+        className={`w-6 h-6 transition-all duration-300 ${
+          isHovered ? 'text-glassgreen-400 scale-110' : 'text-white/80'
+        }`}
+      />
+      
+      {/* Glow effect */}
+      <div className={`absolute inset-0 rounded-full transition-all duration-300 ${
+        isHovered ? 'bg-glassgreen-400/20 blur-md scale-150' : 'scale-100'
+      }`} />
+    </div>
+  );
+};
+
 function App() {
   const { t } = useTranslation();
   const [originalPrompt, setOriginalPrompt] = useState('');
@@ -31,28 +320,11 @@ function App() {
   const [showHistory, setShowHistory] = useState(false);
   const [enhancementMode, setEnhancementMode] = useState('standard');
   const [characterCount, setCharacterCount] = useState(0);
-  const [showTutorial, setShowTutorial] = useState(true);
   const [showAbout, setShowAbout] = useState(false);
   
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const voiceRef = useRef<VoiceDictationHandle>(null);
   const [isListening, setIsListening] = useState(false);
-
-  const categories = [
-    { id: 'general', name: 'General', icon: '💬' },
-    { id: 'creative', name: 'Creative', icon: '✍️' },
-    { id: 'business', name: 'Business', icon: '💼' },
-    { id: 'technical', name: 'Technical', icon: '⚙️' },
-    { id: 'academic', name: 'Academic', icon: '📚' },
-    { id: 'marketing', name: 'Marketing', icon: '📢' }
-  ];
-
-  const enhancementModes = [
-    { id: 'standard', name: 'Standard', description: 'Balanced enhancement' },
-    { id: 'concise', name: 'Concise', description: 'Shorter, focused prompts' },
-    { id: 'detailed', name: 'Detailed', description: 'Comprehensive prompts' },
-    { id: 'creative', name: 'Creative', description: 'Imaginative rewrites' }
-  ];
 
   useEffect(() => {
     setCharacterCount(originalPrompt.length);
@@ -98,14 +370,6 @@ function App() {
     if (e.ctrlKey && e.key === 'Enter') {
       handleEnhance();
     }
-  };
-
-  const clearHistory = () => {
-    setPromptHistory([]);
-  };
-
-  const handleTemplateSelect = (template: string) => {
-    setOriginalPrompt(template);
   };
 
   // Example: chat history state (empty for now)
@@ -249,9 +513,9 @@ function App() {
           </Link>
           <div className="flex items-center space-x-6">
             <Link to="/team" className="text-white/80 hover:text-white text-sm font-medium transition">{t('Team')}</Link>
-            <a href="#features" className="text-white/80 hover:text-white text-sm font-medium transition">{t('Features')}</a>
+            <button onClick={() => document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' })} className="text-white/80 hover:text-white text-sm font-medium transition bg-transparent border-none outline-none cursor-pointer">{t('Features')}</button>
             <button type="button" onClick={() => setShowAbout(true)} className="text-white/80 hover:text-white text-sm font-medium transition bg-transparent border-none outline-none cursor-pointer">{t('About')}</button>
-            <a href="#" className="text-white/80 hover:text-white text-sm font-medium transition">{t('Contact')}</a>
+                          <button onClick={() => setShowAbout(true)} className="text-white/80 hover:text-white text-sm font-medium transition bg-transparent border-none outline-none cursor-pointer">{t('Contact')}</button>
             <Link to="/login" className="ml-4 px-5 py-2 rounded-full bg-glassgreen-500 text-glassblue-900 font-semibold shadow-glass hover:bg-glassgreen-400 transition text-center">{t('Get started for free')}</Link>
           </div>
         </nav>
@@ -263,9 +527,30 @@ function App() {
             <main className="flex-1 flex flex-col">
               {/* Hero Section */}
               <section className="flex flex-col items-center justify-center flex-1 px-4 pt-8 pb-16">
-                <h1 className="text-4xl md:text-6xl font-extrabold text-center leading-tight mb-6 tracking-tight text-white" style={{letterSpacing: '-0.02em'}}>{t('Start simple, learn fast, and build toward excellence.')}</h1>
-                <p className="text-lg md:text-xl text-white/90 font-light text-center max-w-2xl mb-8">{t('Promptly is your AI prompt assistant. Transform rough ideas into perfect prompts with a single click. Minimal, modern, and inspired by the best in design.')}</p>
-                <Link to="/login" className="px-8 py-3 rounded-full bg-glassgreen-500 text-glassblue-900 font-semibold text-lg shadow-glass hover:bg-glassgreen-400 transition mb-12 text-center">{t('Get started for free')}</Link>
+                <div className="text-center mb-8">
+                  <div className="inline-flex items-center px-4 py-2 rounded-full bg-glassgreen-500/20 border border-glassgreen-500/30 text-glassgreen-300 text-sm font-medium mb-6">
+                    <span className="w-2 h-2 bg-glassgreen-400 rounded-full mr-2 animate-pulse"></span>
+                    AI-Powered Prompt Enhancement
+                  </div>
+                  <h1 className="text-4xl md:text-6xl font-extrabold text-center leading-tight mb-6 tracking-tight text-white" style={{letterSpacing: '-0.02em'}}>{t('Start simple, learn fast, and build toward excellence.')}</h1>
+                  <p className="text-lg md:text-xl text-white/90 font-light text-center max-w-2xl mb-8">{t('Promptly is your AI prompt assistant. Transform rough ideas into perfect prompts with a single click. Minimal, modern, and inspired by the best in design.')}</p>
+                  <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
+                    <MicroButton 
+                      variant="primary" 
+                      className="px-8 py-3 text-lg"
+                      onClick={() => window.location.href = '/login'}
+                    >
+                      {t('Get started for free')}
+                    </MicroButton>
+                    <MicroButton 
+                      variant="secondary" 
+                      className="px-8 py-3 text-lg"
+                      onClick={() => setShowAbout(true)}
+                    >
+                      Watch Demo
+                    </MicroButton>
+                  </div>
+                </div>
                 {/* Glassy Card for Prompt Enhancer */}
                 <div className="w-full max-w-xl mx-auto bg-white/30 backdrop-blur-glass border border-white/20 rounded-3xl shadow-glass p-8 flex flex-col items-center" style={{boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.18)'}}>
                   <label className="block text-base font-medium text-white mb-2 self-start">{t('Your Prompt')}</label>
@@ -308,11 +593,12 @@ function App() {
                     </div>
                   </div>
                   <div className="flex items-center justify-between w-full mb-6">
-                    <span className="text-xs text-white/80">{characterCount}/2000 {t('characters')}</span>
-                    <button
+                    <AnimatedCharacterCounter current={characterCount} max={2000} />
+                    <MicroButton
                       onClick={handleEnhance}
                       disabled={!originalPrompt.trim() || isEnhancing}
-                      className="bg-gradient-to-r from-glassgreen-500 to-glassblue-700 text-glassblue-900 font-semibold px-6 py-2 rounded-xl shadow-glass hover:from-glassgreen-400 hover:to-glassblue-600 transition disabled:opacity-50 disabled:cursor-not-allowed font-inter"
+                      className="px-6 py-2 font-inter"
+                      variant="primary"
                     >
                       {isEnhancing ? (
                         <span className="flex items-center space-x-2">
@@ -322,7 +608,7 @@ function App() {
                       ) : (
                         t('Enhance Prompt')
                       )}
-                    </button>
+                    </MicroButton>
                   </div>
                   {/* Enhanced Result */}
                   {enhancedPrompt && (
@@ -357,6 +643,101 @@ function App() {
                       <p className="text-xs text-white/80 text-center">{t('Your feedback helps improve our enhancement algorithm')}</p>
                     </div>
                   )}
+                </div>
+              </section>
+              {/* Features Section */}
+              <section id="features" className="py-20 px-4 bg-white/5 backdrop-blur-glass">
+                <div className="max-w-6xl mx-auto">
+                  <div className="text-center mb-16">
+                    <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-4">Why Choose Promptly?</h2>
+                    <p className="text-lg text-white/80 max-w-2xl mx-auto">Transform your AI interactions with our intelligent prompt enhancement technology</p>
+                  </div>
+                  <div className="grid md:grid-cols-3 gap-8">
+                    <AnimatedSection delay={0}>
+                      <TiltCard delay={0}>
+                        <div className="w-12 h-12 bg-gradient-to-br from-glassgreen-500 to-glassblue-700 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                          <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                          </svg>
+                        </div>
+                        <h3 className="text-xl font-bold text-white mb-4 group-hover:text-glassgreen-300 transition-colors">Lightning Fast</h3>
+                        <p className="text-white/80 group-hover:text-white/90 transition-colors">Enhance your prompts in seconds with our optimized AI algorithms</p>
+                      </TiltCard>
+                    </AnimatedSection>
+                    <div className="bg-white/10 backdrop-blur-glass border border-white/20 rounded-2xl p-8 hover:bg-white/15 transition-all duration-300">
+                      <div className="w-12 h-12 bg-gradient-to-br from-glassgreen-500 to-glassblue-700 rounded-xl flex items-center justify-center mb-6">
+                        <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                        </svg>
+                      </div>
+                      <h3 className="text-xl font-bold text-white mb-4">Smart Enhancement</h3>
+                      <p className="text-white/80">AI-powered suggestions that understand context and improve clarity</p>
+                    </div>
+                    <div className="bg-white/10 backdrop-blur-glass border border-white/20 rounded-2xl p-8 hover:bg-white/15 transition-all duration-300">
+                      <div className="w-12 h-12 bg-gradient-to-br from-glassgreen-500 to-glassblue-700 rounded-xl flex items-center justify-center mb-6">
+                        <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                        </svg>
+                      </div>
+                      <h3 className="text-xl font-bold text-white mb-4">Privacy First</h3>
+                      <p className="text-white/80">Your prompts are processed securely and never stored permanently</p>
+                    </div>
+                  </div>
+                </div>
+              </section>
+              {/* Use Cases Section */}
+              <section className="py-20 px-4">
+                <div className="max-w-6xl mx-auto">
+                  <div className="text-center mb-16">
+                    <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-4">Perfect for Every Use Case</h2>
+                    <p className="text-lg text-white/80 max-w-2xl mx-auto">From creative writing to business communication, Promptly enhances your AI interactions</p>
+                  </div>
+                  <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div className="bg-gradient-to-br from-glassblue-700/20 to-glassgreen-500/20 border border-white/20 rounded-2xl p-6 text-center">
+                      <div className="text-3xl mb-4">✍️</div>
+                      <h3 className="text-lg font-bold text-white mb-2">Content Creation</h3>
+                      <p className="text-white/70 text-sm">Blog posts, social media, and marketing copy</p>
+                    </div>
+                    <div className="bg-gradient-to-br from-glassblue-700/20 to-glassgreen-500/20 border border-white/20 rounded-2xl p-6 text-center">
+                      <div className="text-3xl mb-4">💼</div>
+                      <h3 className="text-lg font-bold text-white mb-2">Business</h3>
+                      <p className="text-white/70 text-sm">Emails, reports, and professional communication</p>
+                    </div>
+                    <div className="bg-gradient-to-br from-glassblue-700/20 to-glassgreen-500/20 border border-white/20 rounded-2xl p-6 text-center">
+                      <div className="text-3xl mb-4">🎨</div>
+                      <h3 className="text-lg font-bold text-white mb-2">Creative Writing</h3>
+                      <p className="text-white/70 text-sm">Stories, scripts, and artistic expression</p>
+                    </div>
+                    <div className="bg-gradient-to-br from-glassblue-700/20 to-glassgreen-500/20 border border-white/20 rounded-2xl p-6 text-center">
+                      <div className="text-3xl mb-4">📚</div>
+                      <h3 className="text-lg font-bold text-white mb-2">Academic</h3>
+                      <p className="text-white/70 text-sm">Research, essays, and educational content</p>
+                    </div>
+                  </div>
+                </div>
+              </section>
+              {/* Call to Action Section */}
+              <section className="py-20 px-4 bg-gradient-to-r from-glassblue-700/20 to-glassgreen-500/20">
+                <div className="max-w-4xl mx-auto text-center">
+                  <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-6">Ready to Transform Your AI Experience?</h2>
+                  <p className="text-lg text-white/80 mb-8 max-w-2xl mx-auto">Join thousands of users who are already creating better prompts with Promptly. Start your journey today.</p>
+                  <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                    <MicroButton 
+                      variant="primary" 
+                      className="px-8 py-4 text-lg"
+                      onClick={() => window.location.href = '/login'}
+                    >
+                      Get Started Free
+                    </MicroButton>
+                    <MicroButton 
+                      variant="secondary" 
+                      className="px-8 py-4 text-lg"
+                      onClick={() => setShowAbout(true)}
+                    >
+                      Learn More
+                    </MicroButton>
+                  </div>
+                  <p className="text-sm text-white/60 mt-4">No credit card required • Free forever plan available</p>
                 </div>
               </section>
               {/* Notion-style Footer */}
@@ -432,7 +813,8 @@ function App() {
           <Route path="/signup" element={<Login />} />
         </Routes>
         {showAbout && <AboutOverlay />}
-    </div>
+        <FloatingParticles />
+      </div>
     </Router>
   );
 }
