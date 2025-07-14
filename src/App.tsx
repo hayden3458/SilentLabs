@@ -487,9 +487,9 @@ function App() {
 
   return (
       <Router>
-      <div className="min-h-screen bg-white text-gray-900 font-inter flex flex-col">
+      <div className="min-h-screen bg-white text-gray-900 font-inter flex flex-col pt-[88px]">
           {/* Navigation Bar */}
-        <nav className="w-full flex items-center justify-between px-8 py-6 bg-white/80 backdrop-blur-xl border-b border-white/20 shadow-lg glass-nav">
+        <nav className="w-full flex items-center justify-between px-8 py-6 bg-white/80 backdrop-blur-xl border-b border-white/20 shadow-lg glass-nav fixed top-0 left-0 z-50" style={{backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)'}}>
           <Link to="/" className="flex items-center space-x-3 group focus:outline-none transition-transform duration-300 hover:scale-105 liquid-ripple">
             <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-cyan-400 rounded-2xl flex items-center justify-center shadow-lg mr-2 modern-pulse">
               <span className="text-white font-black text-xl">P</span>
