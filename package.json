@@ -10,8 +10,8 @@
     "@types/jest": "^27.5.2",
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
-    "ajv": "^6.12.6",
-    "ajv-keywords": "^3.5.2",
+    "classnames": "^2.5.1",
+    "google-auth-library": "^10.1.0",
     "i18next": "^25.3.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
@@ -20,19 +20,11 @@
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
   },
-  "devDependencies": {
-    "@types/node": "^24.0.8",
-    "@types/react-router-dom": "^5.3.3",
-    "autoprefixer": "^10.4.21",
-    "postcss": "^8.5.6",
-    "tailwindcss": "^3.3.3",
-    "typescript": "^4.9.5"
-  },
   "scripts": {
-    "start": "cd prompt-enhancer && npm start",
-    "build": "cd prompt-enhancer && npm run build",
-    "test": "cd prompt-enhancer && npm test",
-    "eject": "cd prompt-enhancer && npm run eject"
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
@@ -51,5 +43,13 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/classnames": "^2.3.0",
+    "@types/node": "^24.0.8",
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^3.3.3",
+    "typescript": "^5.0.0"
   }
 }

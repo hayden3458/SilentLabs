@@ -1,0 +1,164 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  margin: 0;
+  font-family: 'Inter', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', system-ui, sans-serif;
+  background: #0a192f;
+  color: #e5e7eb;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  cursor: auto;
+}
+
+body.light, .light {
+  background: linear-gradient(135deg, #f8fafc 0%, #e0f7fa 100%);
+  color: #23272f;
+}
+body.dark {
+  background: #0a192f;
+  color: #e5e7eb;
+}
+
+body.light h1, .light h1, body.light h2, .light h2, body.light h3, .light h3, body.light h4, .light h4, body.light h5, .light h5, body.light h6, .light h6 {
+  color: #23272f;
+}
+body.light p, .light p, body.light li, .light li, body.light label, .light label, body.light span, .light span, body.light input, .light input, body.light textarea, .light textarea {
+  color: #6B7280;
+}
+body.light .text-primary {
+  color: #23272f !important;
+}
+body.light .text-secondary {
+  color: #6B7280 !important;
+}
+body.light a, .light a, body.light .link, .light .link, body.light .btn, .light .btn {
+  color: #2563eb !important;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+/* Ensure modern sans-serif font for main workspace area */
+.bg-nature-glass, .min-h-screen {
+  font-family: 'Inter', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', system-ui, sans-serif !important;
+}
+
+.bg-nature-glass {
+  background: linear-gradient(135deg, #f8fafc 0%, #e0f7fa 100%);
+}
+.dark .bg-nature-glass {
+  background: linear-gradient(135deg, #0a2233 0%, #164863 40%, #3baea0 80%, #a8e063 100%);
+}
+
+/* Only apply cream background to the main workspace area after login */
+.workspace-main {
+  background: #F5F0E6 !important;
+  color: #22223B;
+}
+
+.workspace-main h1, .workspace-main h2, .workspace-main h3, .workspace-main h4, .workspace-main h5, .workspace-main h6 {
+  color: #22223B;
+}
+
+.workspace-main p, .workspace-main li, .workspace-main label, .workspace-main span, .workspace-main input, .workspace-main textarea {
+  color: #4A4E69;
+}
+
+.workspace-main .card, .workspace-main .prompt-library-container, .workspace-main .bg-white, .workspace-main .bg-white\/80 {
+  background: #FFFDF8 !important;
+  box-shadow: 0 2px 16px 0 rgba(34, 34, 59, 0.07);
+  border-radius: 16px;
+}
+.dark .workspace-main .card, .dark .workspace-main .prompt-library-container, .dark .workspace-main .bg-white, .dark .workspace-main .bg-white\/80 {
+  background: #1a2233 !important;
+  color: #e5e7eb;
+}
+
+.workspace-main button, .workspace-main .btn-accent {
+  background: linear-gradient(90deg, #F5CBA7 0%, #A3CEF1 100%);
+  color: #22223B;
+  border: none;
+  font-weight: 600;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px 0 rgba(34, 34, 59, 0.08);
+  transition: background 0.2s, box-shadow 0.2s;
+}
+.dark .workspace-main button, .dark .workspace-main .btn-accent {
+  background: linear-gradient(90deg, #4ADE80 0%, #38BDF8 100%);
+  color: #18181b;
+}
+
+.workspace-main button:hover, .workspace-main .btn-accent:hover {
+  background: linear-gradient(90deg, #A3CEF1 0%, #F5CBA7 100%);
+  box-shadow: 0 4px 16px 0 rgba(34, 34, 59, 0.12);
+}
+
+body.plastic {
+  background: linear-gradient(135deg, #181c24 0%, #232946 100%);
+  color: #e0e6f7;
+}
+
+.plastic .card, .plastic .modal, .plastic .input {
+  background: rgba(30, 34, 45, 0.85);
+  border-radius: 18px;
+  box-shadow: 0 2px 16px 0 rgba(0,255,255,0.08), 0 0 0 1px #2ec4f1 inset;
+  backdrop-filter: blur(12px);
+  border: 1.5px solid #2ec4f1;
+  position: relative;
+}
+.plastic .card::before, .plastic .modal::before {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 18px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.18) 0%, transparent 100%);
+  border-radius: 18px 18px 0 0;
+}
+
+.plastic h1, .plastic h2, .plastic h3 {
+  color: #fff;
+  text-shadow: 0 0 8px #2ec4f1;
+}
+
+.plastic .btn, .plastic button {
+  background: linear-gradient(90deg, #2ec4f1 0%, #6c63ff 100%);
+  color: #fff;
+  border-radius: 9999px;
+  box-shadow: 0 0 8px 2px #2ec4f1;
+  border: none;
+  font-weight: 700;
+  transition: box-shadow 0.2s, background 0.2s;
+}
+.plastic .btn:hover, .plastic button:hover {
+  box-shadow: 0 0 16px 4px #6c63ff;
+}
+
+.plastic .bg-nature-glass {
+  background: linear-gradient(135deg, #232946 0%, #181c24 100%);
+}
+
+/* Remove blue glow and background from all text and links in plastic mode */
+.plastic a, .plastic .footer-link, .plastic .footer-list-item, .plastic .liquid-glass, .plastic .footer-social, .plastic .footer-lang-btn {
+  background: none !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  border: none !important;
+}
+
+/* Force solid blue and white text for nav bar CTA */
+.nav-blue-gradient-btn {
+  background: #2563eb !important;
+  color: #fff !important;
+  border-radius: 16px;
+  font-weight: 700;
+  box-shadow: 0 2px 8px 0 rgba(34, 34, 59, 0.08);
+}
+.nav-blue-gradient-btn:hover {
+  background: #1d4ed8 !important;
+  color: #fff !important;
+}
