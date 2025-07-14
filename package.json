@@ -12,10 +12,10 @@
     "@types/react-dom": "^19.1.6",
     "classnames": "^2.5.1",
     "google-auth-library": "^10.1.0",
-    "i18next": "^25.3.0",
+    "i18next": "^22.4.9",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "react-i18next": "^15.5.3",
+    "react-i18next": "^12.2.0",
     "react-router-dom": "^7.6.3",
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
