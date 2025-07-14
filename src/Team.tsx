@@ -103,7 +103,6 @@ const milestones = [
 
 const Team: React.FC = () => {
   const [selectedRole, setSelectedRole] = useState('All');
-  const [flipped, setFlipped] = useState<string | null>(null);
   const [carouselIdx, setCarouselIdx] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
   const navigate = useNavigate();
@@ -175,7 +174,7 @@ const Team: React.FC = () => {
               key={filteredMembers[carouselIdx].name}
               className={`relative group perspective-1000 h-72`}
             >
-              <div className={`transition-transform duration-700 transform-style-preserve-3d h-full w-full ${flipped === filteredMembers[carouselIdx].name ? 'rotate-y-180' : ''}`}>
+              <div className={`transition-transform duration-700 transform-style-preserve-3d h-full w-full`}>
                 {/* Front Side */}
                 <div className="absolute inset-0 bg-white/20 backdrop-blur-glass rounded-2xl shadow-glass p-6 flex flex-col items-center text-center transition-transform duration-700" style={{ zIndex: 2, backfaceVisibility: 'hidden', background: 'linear-gradient(135deg, #4ADE80 0%, #38BDF8 100%)' }}>
                   <div className="w-20 h-20 rounded-full bg-gradient-to-br from-glassgreen-500 to-glassblue-700 flex items-center justify-center mb-3 text-3xl font-bold text-white shadow-lg">
@@ -228,7 +227,7 @@ const Team: React.FC = () => {
               key={member.name}
               className={`relative group perspective-1000 h-72`}
             >
-              <div className={`transition-transform duration-700 transform-style-preserve-3d h-full w-full ${flipped === member.name ? 'rotate-y-180' : ''}`}>
+              <div className={`transition-transform duration-700 transform-style-preserve-3d h-full w-full`}>
                 {/* Front Side */}
                 <div className="absolute inset-0 bg-white/20 backdrop-blur-glass rounded-2xl shadow-glass p-6 flex flex-col items-center text-center transition-transform duration-700" style={{ zIndex: 2, backfaceVisibility: 'hidden', background: 'linear-gradient(135deg, #4ADE80 0%, #38BDF8 100%)' }}>
                   <div className="w-20 h-20 rounded-full bg-gradient-to-br from-glassgreen-500 to-glassblue-700 flex items-center justify-center mb-3 text-3xl font-bold text-white shadow-lg">

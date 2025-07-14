@@ -58,29 +58,14 @@ function App() {
   const { t } = useTranslation();
   const [originalPrompt, setOriginalPrompt] = useState('');
   const [enhancedPrompt, setEnhancedPrompt] = useState('');
-  const [isEnhancing, setIsEnhancing] = useState(false);
-  const [showRating, setShowRating] = useState(false);
-  const [currentRating, setCurrentRating] = useState(0);
   const [promptHistory, setPromptHistory] = useState<PromptHistory[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState('general');
-  const [showHistory, setShowHistory] = useState(false);
-  const [enhancementMode, setEnhancementMode] = useState('standard');
-  const [characterCount, setCharacterCount] = useState(0);
-  const [showTutorial, setShowTutorial] = useState(true);
   const [showAbout, setShowAbout] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [sidebarWidth, setSidebarWidth] = useState(320); // default width in px
-  
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const [isListening, setIsListening] = useState(false);
   const sidebarRef = useRef<HTMLDivElement>(null);
   const isResizing = useRef(false);
-
-  // Add state to control showing the chat home page
   const [showChatHome, setShowChatHome] = useState(true);
   const [loading, setLoading] = useState(false);
-
-  // Recent chats and user state
   const [recentChats, setRecentChats] = useState([
     { id: '1', title: 'Welcome!', messages: [], timestamp: Date.now() },
     { id: '2', title: 'Project Ideas', messages: [], timestamp: Date.now() - 100000 },
@@ -90,13 +75,10 @@ function App() {
   const [showProfileDropdown, setShowProfileDropdown] = useState(false);
   const [deleteChatId, setDeleteChatId] = useState<string | null>(null);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
-
-  // Feature card interaction states
   const [activeCard, setActiveCard] = useState<string | null>(null);
   const [showDemo, setShowDemo] = useState<string | null>(null);
   const [demoProgress, setDemoProgress] = useState(0);
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [isScrolling, setIsScrolling] = useState(false);
 
   const categories = [
     { id: 'general', name: 'General', icon: '💬' },
@@ -114,21 +96,16 @@ function App() {
     { id: 'creative', name: 'Creative', description: 'Imaginative rewrites' }
   ];
 
-  useEffect(() => {
-    setCharacterCount(originalPrompt.length);
-  }, [originalPrompt]);
-
   const handleEnhance = async () => {
     if (!originalPrompt.trim()) return;
     
-    setIsEnhancing(true);
+    setLoading(true);
     
     // Simulate API call with mock enhancement
     setTimeout(() => {
       const mockEnhanced = `Enhanced: ${originalPrompt}\n\nContext: This prompt has been optimized for better AI understanding and response quality.`;
       setEnhancedPrompt(mockEnhanced);
-      setIsEnhancing(false);
-      setShowRating(true);
+      setLoading(false);
     }, 1500);
   };
 
@@ -138,20 +115,17 @@ function App() {
   };
 
   const handleRate = (rating: number) => {
-    setCurrentRating(rating);
     const newEntry: PromptHistory = {
       id: Date.now().toString(),
       original: originalPrompt,
       enhanced: enhancedPrompt,
       rating,
       timestamp: new Date(),
-      category: selectedCategory
+      category: 'general'
     };
     setPromptHistory([newEntry, ...promptHistory]);
-    setShowRating(false);
     setOriginalPrompt('');
     setEnhancedPrompt('');
-    setCurrentRating(0);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -167,9 +141,6 @@ function App() {
   const handleTemplateSelect = (template: string) => {
     setOriginalPrompt(template);
   };
-
-  // Example: chat history state (empty for now)
-  const chatHistory: string[] = [];
 
   // Add chat
   const handleNewChat = () => {
