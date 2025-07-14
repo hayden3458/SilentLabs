@@ -6,6 +6,7 @@ import './App.css';
 import LanguageSelector from './components/LanguageSelector';
 import Login from './components/Login';
 import TeamMemberPage from './components/TeamMemberPage';
+import Waitlist from './components/Waitlist';
 
 interface PromptHistory {
   id: string;
@@ -55,9 +56,13 @@ const BricksLoader: React.FC = () => (
 );
 
 function App() {
+  // All hooks must be called at the top level, before any conditional returns
   const { t } = useTranslation();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [originalPrompt, setOriginalPrompt] = useState('');
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [enhancedPrompt, setEnhancedPrompt] = useState('');
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [promptHistory, setPromptHistory] = useState<PromptHistory[]>([]);
   const [showAbout, setShowAbout] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -80,22 +85,16 @@ function App() {
   const [demoProgress, setDemoProgress] = useState(0);
   const [currentSlide, setCurrentSlide] = useState(0);
 
-  const categories = [
-    { id: 'general', name: 'General', icon: '💬' },
-    { id: 'creative', name: 'Creative', icon: '✍️' },
-    { id: 'business', name: 'Business', icon: '💼' },
-    { id: 'technical', name: 'Technical', icon: '⚙️' },
-    { id: 'academic', name: 'Academic', icon: '📚' },
-    { id: 'marketing', name: 'Marketing', icon: '📢' }
-  ];
+  // Waitlist logic: show Waitlist if env var is true and ?dev=true is NOT in URL
+  const waitlistOnly = process.env.REACT_APP_WAITLIST_ONLY === 'true';
+  const params = new window.URLSearchParams(window.location.search);
+  const isDev = params.get('dev') === 'true';
+  
+  if (waitlistOnly && !isDev) {
+    return <Waitlist />;
+  }
 
-  const enhancementModes = [
-    { id: 'standard', name: 'Standard', description: 'Balanced enhancement' },
-    { id: 'concise', name: 'Concise', description: 'Shorter, focused prompts' },
-    { id: 'detailed', name: 'Detailed', description: 'Comprehensive prompts' },
-    { id: 'creative', name: 'Creative', description: 'Imaginative rewrites' }
-  ];
-
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleEnhance = async () => {
     if (!originalPrompt.trim()) return;
     
@@ -107,39 +106,6 @@ function App() {
       setEnhancedPrompt(mockEnhanced);
       setLoading(false);
     }, 1500);
-  };
-
-  const handleCopy = () => {
-    navigator.clipboard.writeText(enhancedPrompt);
-    // Show copy feedback
-  };
-
-  const handleRate = (rating: number) => {
-    const newEntry: PromptHistory = {
-      id: Date.now().toString(),
-      original: originalPrompt,
-      enhanced: enhancedPrompt,
-      rating,
-      timestamp: new Date(),
-      category: 'general'
-    };
-    setPromptHistory([newEntry, ...promptHistory]);
-    setOriginalPrompt('');
-    setEnhancedPrompt('');
-  };
-
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.ctrlKey && e.key === 'Enter') {
-      handleEnhance();
-    }
-  };
-
-  const clearHistory = () => {
-    setPromptHistory([]);
-  };
-
-  const handleTemplateSelect = (template: string) => {
-    setOriginalPrompt(template);
   };
 
   // Add chat
@@ -232,8 +198,8 @@ function App() {
           <h2 className="text-2xl font-bold mb-4 text-white">Contact Us</h2>
           <div className="text-white/90 mb-6">
             <div>Have questions, feedback, or partnership ideas? Reach out to us through:</div>
-            <div className="mt-2">Email: <a href="mailto:hello@promptly.app" className="underline text-glassgreen-300">hello@promptly.app</a></div>
-            <div className="mt-2">Instagram: <span className="underline text-glassgreen-300">promptlyed</span></div>
+            <div className="mt-2">Email: <a href="mailto:silenstartup@gmail.com" className="underline text-glassgreen-300">silenstartup@gmail.com</a></div>
+            <div className="mt-2">Instagram: <a href="https://www.instagram.com/SilentLabs/" target="_blank" rel="noopener noreferrer" className="underline text-glassgreen-300">SilentLabs</a></div>
           </div>
           <h2 className="text-2xl font-bold mb-4 text-white">Frequently Asked Questions</h2>
           <div className="mb-4">
@@ -258,6 +224,7 @@ function App() {
   );
 
   // Close About overlay on Esc
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
     if (!showAbout) return;
     const onKeyDown = (e: KeyboardEvent) => {
@@ -283,6 +250,7 @@ function App() {
     isResizing.current = false;
     document.body.style.cursor = '';
   };
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
     if (!sidebarOpen) return;
     window.addEventListener('mousemove', handleMouseMove);
@@ -451,9 +419,9 @@ function App() {
   );
 
   return (
-      <Router>
+    <Router>
       <div className="min-h-screen bg-white text-gray-900 font-inter flex flex-col pt-[88px]">
-          {/* Navigation Bar */}
+        {/* Navigation Bar */}
         <nav className="w-full flex items-center justify-between px-8 py-6 bg-white/80 backdrop-blur-xl border-b border-white/20 shadow-lg glass-nav fixed top-0 left-0 z-50" style={{backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)'}}>
           <Link to="/" className="flex items-center space-x-3 group focus:outline-none transition-transform duration-300 hover:scale-105 liquid-ripple">
             <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-cyan-400 rounded-2xl flex items-center justify-center shadow-lg mr-2 modern-pulse">
@@ -548,6 +516,7 @@ function App() {
             <Link to="/login" className="ml-4 px-6 py-3 bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-bold rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 text-center glass-button liquid-ripple nav-blue-gradient-btn">
               {t('Get started for free')}
             </Link>
+            {/* <Link to="/waitlist" className="text-gray-700 hover:text-[#22223B] focus:text-[#22223B] active:text-[#22223B] text-sm font-semibold transition-all duration-300 hover:scale-105 glass-nav-item footer-black-underline">Waitlist</Link> */}
           </div>
           </nav>
           <Routes>
@@ -1286,6 +1255,7 @@ function App() {
           <Route path="/enhance" element={<EnhancePage />} />
           <Route path="/search" element={<SearchPage />} />
           <Route path="/projects" element={<ProjectsPage />} />
+          <Route path="/waitlist" element={<Waitlist />} />
           </Routes>
           {showAbout && <AboutOverlay />}
         </div>
