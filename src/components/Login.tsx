@@ -2,61 +2,6 @@ import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import './GoogleLogo.css';
 
-// Add CSS for the Google G logo
-const googleLogoCSS = `
-.logo-container {
-  width: 22px;
-  height: 22px;
-  position: relative;
-  display: inline-block;
-}
-.logo-g {
-  width: 100%;
-  height: 100%;
-  position: relative;
-}
-.g-line {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  border-radius: 50%;
-  background: conic-gradient(
-    from 180deg,
-    #ea4335 0deg,
-    #ea4335 90deg,
-    #fbbc05 90deg,
-    #fbbc05 180deg,
-    #34a853 180deg,
-    #34a853 270deg,
-    #4285f4 270deg,
-    #4285f4 360deg
-  );
-}
-.g-inner {
-  position: absolute;
-  width: 60%;
-  height: 60%;
-  top: 20%;
-  left: 20%;
-  background: white;
-  border-radius: 50%;
-  z-index: 1;
-}
-.g-bar {
-  position: absolute;
-  width: 50%;
-  height: 20%;
-  top: 60%;
-  left: 50%;
-  background: #4285f4;
-  border-radius: 0 0 40px 40px;
-  transform: translate(-50%, 0);
-  z-index: 2;
-}
-`;
-
 const GoogleLogoCSS = () => (
   <div className="logo-container">
     <div className="logo-g">

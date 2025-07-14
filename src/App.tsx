@@ -1,16 +1,11 @@
-import React, { useState, useRef, useEffect, createContext, useContext } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Team from './Team';
 import './App.css';
-import PromptTemplates from './components/PromptTemplates';
-import Analytics from './components/Analytics';
 import LanguageSelector from './components/LanguageSelector';
 import Login from './components/Login';
-import VoiceDictation, { VoiceDictationHandle } from './components/VoiceDictation';
 import TeamMemberPage from './components/TeamMemberPage';
-import PromptBuilder from './components/PromptBuilder';
-import { useNavigate } from 'react-router-dom';
 
 interface PromptHistory {
   id: string;
@@ -77,7 +72,6 @@ function App() {
   const [sidebarWidth, setSidebarWidth] = useState(320); // default width in px
   
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const voiceRef = useRef<VoiceDictationHandle>(null);
   const [isListening, setIsListening] = useState(false);
   const sidebarRef = useRef<HTMLDivElement>(null);
   const isResizing = useRef(false);

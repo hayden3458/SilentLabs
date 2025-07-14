@@ -2,13 +2,6 @@ import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { teamMembers } from '../Team';
 
-const memberDetails = {
-  phone: '(555) 123-4567',
-  role: 'Backend',
-  division: 'Tech',
-  department: 'Tech',
-};
-
 const TeamMemberPage: React.FC = () => {
   const { name } = useParams<{ name: string }>();
   const navigate = useNavigate();
@@ -31,7 +24,7 @@ const TeamMemberPage: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
           <div>
             <div className="font-bold text-gray-900 mb-1">PHONE</div>
-            <div className="text-lg font-mono text-gray-900 bg-white/20 rounded px-2 py-1 inline-block">{memberDetails.phone}</div>
+            <div className="text-lg font-mono text-gray-900 bg-white/20 rounded px-2 py-1 inline-block">(555) 123-4567</div>
           </div>
           <div>
             <div className="font-bold text-gray-900 mb-1">EMAIL</div>
@@ -40,17 +33,17 @@ const TeamMemberPage: React.FC = () => {
         </div>
         <div className="mb-8">
           <div className="font-bold text-gray-900 mb-1">ROLE</div>
-          <div className="text-lg text-gray-900 bg-white/20 rounded px-2 py-1 inline-block">{memberDetails.role}</div>
+          <div className="text-lg text-gray-900 bg-white/20 rounded px-2 py-1 inline-block">Backend</div>
         </div>
         <hr className="border-t-2 border-glassgreen-500 my-6" />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div>
             <div className="font-bold text-gray-900 mb-1">DIVISION</div>
-            <div className="text-lg text-gray-900 bg-white/20 rounded px-2 py-1 inline-block">{memberDetails.division}</div>
+            <div className="text-lg text-gray-900 bg-white/20 rounded px-2 py-1 inline-block">Tech</div>
           </div>
           <div>
             <div className="font-bold text-gray-900 mb-1">DEPARTMENT</div>
-            <div className="text-lg text-gray-900 bg-white/20 rounded px-2 py-1 inline-block">{memberDetails.department}</div>
+            <div className="text-lg text-gray-900 bg-white/20 rounded px-2 py-1 inline-block">Tech</div>
           </div>
         </div>
         <button onClick={() => navigate(-1)} className="mt-10 px-6 py-2 rounded-full bg-glassgreen-500 text-glassblue-900 font-semibold shadow-glass hover:bg-glassgreen-400 transition self-center">Back to Team</button>

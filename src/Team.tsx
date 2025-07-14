@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 export const teamMembers = [
   {
@@ -106,7 +105,6 @@ const Team: React.FC = () => {
   const [flipped, setFlipped] = useState<string | null>(null);
   const [carouselIdx, setCarouselIdx] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 640);
