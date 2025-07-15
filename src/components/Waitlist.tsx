@@ -29,7 +29,7 @@ const Waitlist: React.FC = () => {
         Be the first to know when we launch.
       </p>
       {submitted ? (
-        <div className="bg-white/10 rounded-2xl px-8 py-6 text-center text-lg text-green-300 shadow-lg max-w-md w-full" style={{fontFamily: '-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif'}}>You’re on our waitlist!</div>
+        <div className="bg-white/10 rounded-2xl px-8 py-6 text-center text-lg text-white shadow-lg max-w-md w-full" style={{fontFamily: '-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif'}}>You’re on our waitlist!</div>
       ) : (
         <form onSubmit={handleSubmit} className="w-full max-w-md flex flex-col items-center gap-4">
           <input
@@ -52,7 +52,7 @@ const Waitlist: React.FC = () => {
               marginLeft: 'auto',
               background: '#eceef1',
               color: '#a0a4b8',
-              boxShadow: '0 0 40px 8px #fff, 6px 6px 16px #d1d9e6, -6px -6px 16px #ffffff, 0 1px 0 0 #fff inset',
+              boxShadow: '0 0 8px 2px #fff, 6px 6px 16px #d1d9e6, -6px -6px 16px #ffffff, 0 1px 0 0 #fff inset',
               border: 'none',
               borderRadius: '2rem',
               textAlign: 'center',

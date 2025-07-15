@@ -28,7 +28,7 @@ const TeamMemberPage: React.FC = () => {
           </div>
           <div>
             <div className="font-bold text-gray-900 mb-1">EMAIL</div>
-            <div className="text-lg font-mono text-gray-900 bg-white/20 rounded px-2 py-1 inline-block">{member.name.toLowerCase().replace(/ /g, '')}@promptly.com</div>
+            <div className="text-lg font-mono text-gray-900 bg-white/20 rounded px-2 py-1 inline-block">{member.name.toLowerCase().replace(/ /g, '')}@silentlabs.com</div>
           </div>
         </div>
         <div className="mb-8">
