@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from 'react';
-import LiquidGlassButton from './LiquidGlassButton';
 
 // Pastel gradient for heading (peach to teal/blue)
 const logoGradient = {
@@ -293,12 +292,23 @@ const Waitlist: React.FC = () => {
           {inputError && (
             <div className="text-red-500 text-sm mt-1 w-full text-center">{inputError}</div>
           )}
-          <LiquidGlassButton
+          <button
             type="submit"
-            className="mt-2"
+            className="py-2 mt-2 px-8 flex items-center justify-center rounded-[2rem] text-lg font-semibold transition focus:outline-none shadow-md"
+            style={{
+              fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif',
+              letterSpacing: '0.01em',
+              minWidth: '160px',
+              background: 'linear-gradient(90deg, #F7CBA0 0%, #7DBAC1 100%)',
+              color: '#fff',
+              border: 'none',
+              borderRadius: '2rem',
+              textAlign: 'center',
+              boxShadow: '0 2px 12px 0 rgba(180,200,210,0.10)',
+            }}
           >
             Join
-          </LiquidGlassButton>
+          </button>
         </form>
       )}
       {/* Search Overlay */}
